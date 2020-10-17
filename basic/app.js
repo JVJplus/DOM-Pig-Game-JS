@@ -13,6 +13,7 @@ var score =[];
 var currentPlayer,currentScore;
 var isPlaying = true;
 var winningScore = 10;
+var firstRun=true;
 
 function init() {
     isPlaying = true;
@@ -132,9 +133,21 @@ function manageEvents() {
     newGameDOM.addEventListener("click", newGame);
 }
 
+function askForWinningScore(){
+    if(firstRun){
+        winningScore=prompt('Enter Winning Score');
+        // invalid input
+        if(!winningScore)
+            winningScore=20;
+        firstRun=false;
+    }
+}
+
 function main() {
     init();
+    setTimeout(askForWinningScore,100);
     manageEvents();
 }
+
 
 main();
