@@ -30,10 +30,9 @@ function init() {
     score[1] = 0;
     currentPlayer = 0;
     currentScore = 0;
-    winningScore=parseInt(document.querySelector('.final-score').value);
-    if(!winningScore) 
-        winningScore=20;
-    // console.log(winningScore);
+    winningScore = parseInt(document.querySelector(".final-score").value);
+    if (!winningScore) winningScore = 20;
+    toast("Winning Score: " + winningScore);
 
     document.querySelector("#dice-0").style.display = "none";
     document.querySelector("#dice-1").style.display = "none";
@@ -78,7 +77,10 @@ function gotTheWinner() {
 }
 
 function hold() {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+        toast("Game Over, Start New Game.");
+        return;
+    }
 
     // update score
     var scoreDOM = document.querySelector("#score-" + currentPlayer);
@@ -106,38 +108,45 @@ function hold() {
         ".player-" + currentPlayer + "-panel"
     );
     newPlayerDOM.classList.add("active");
-    isPreviousHadSix=false;
+    isPreviousHadSix = false;
 }
 
 function roll() {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+        toast("Game Over, Start New Game.");
+        return;
+    }
 
     var randomNo0 = Math.floor(Math.random() * 6) + 1;
-    var randomNo1= Math.floor(Math.random() * 6) + 1;
-    currentScore += randomNo0+randomNo1;
+    var randomNo1 = Math.floor(Math.random() * 6) + 1;
+    currentScore += randomNo0 + randomNo1;
     document.querySelector("#dice-0").style.display = "block";
     document.querySelector("#dice-0").src = "dice-" + randomNo0 + ".png";
     document.querySelector("#dice-1").style.display = "block";
     document.querySelector("#dice-1").src = "dice-" + randomNo1 + ".png";
 
-    document.querySelector("#current-" + currentPlayer).textContent = currentScore;
+    document.querySelector(
+        "#current-" + currentPlayer
+    ).textContent = currentScore;
 
     // console.log(currentPlayer,":",randomNo0,randomNo1);
 
-    if (randomNo0 == 1 || randomNo1 == 1) {
-        currentScore = 0;
-        hold();
-        return;
-    }
-
-    if(randomNo0==6 || randomNo1==6){
-        if(isPreviousHadSix){
-            score[currentPlayer]=0;
-            currentScore=0;
+    if (randomNo0 == 6 || randomNo1 == 6) {
+        if (isPreviousHadSix) {
+            toast("Twice 6 Occured! Total Score Resetted.");
+            score[currentPlayer] = 0;
+            currentScore = 0;
             hold();
             return;
         }
-        isPreviousHadSix=true;
+        isPreviousHadSix = true;
+    }
+
+    if (randomNo0 == 1 || randomNo1 == 1) {
+        currentScore = 0;
+        toast("1 Occured! Current Score Resetted.");
+        hold();
+        return;
     }
 }
 
@@ -157,6 +166,15 @@ function manageEvents() {
     // New Game
     var newGameDOM = document.querySelector(".btn-new");
     newGameDOM.addEventListener("click", newGame);
+}
+
+function toast(msg) {
+    var toastDOM = document.querySelector(".toast");
+    toastDOM.textContent = msg;
+    toastDOM.classList.add("show");
+    setTimeout(() => {
+        toastDOM.classList.remove("show");
+    }, 2000);
 }
 
 function main() {

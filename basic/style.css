@@ -6,7 +6,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 .clearfix::after {
@@ -16,7 +15,11 @@
 }
 
 body {
-    background-image: linear-gradient(rgba(62, 20, 20, 0.4), rgba(62, 20, 20, 0.4)), url(back.jpg);
+    background-image: linear-gradient(
+            rgba(62, 20, 20, 0.4),
+            rgba(62, 20, 20, 0.4)
+        ),
+        url(back.jpg);
     background-size: cover;
     background-position: center;
     font-family: Lato;
@@ -45,8 +48,6 @@ body {
     padding: 100px;
 }
 
-
-
 /**********************************************
 *** PLAYERS
 **********************************************/
@@ -66,25 +67,28 @@ body {
     text-align: center;
     font-size: 80px;
     font-weight: 100;
-    color: #EB4D4D;
+    color: #eb4d4d;
     margin-bottom: 130px;
 }
 
-.active { background-color: #f7f7f7; }
-.active .player-name { font-weight: 300; }
+.active {
+    background-color: #f7f7f7;
+}
+.active .player-name {
+    font-weight: 300;
+}
 
 .active .player-name::after {
     content: "\2022";
     font-size: 47px;
     position: absolute;
-    color: #EB4D4D;
+    color: #eb4d4d;
     top: -7px;
     right: 10px;
-    
 }
 
 .player-current-box {
-    background-color: #EB4D4D;
+    background-color: #eb4d4d;
     color: #fff;
     width: 40%;
     margin: 0 auto;
@@ -119,15 +123,19 @@ button {
     transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover { font-weight: 600; }
-button:hover i { margin-right: 20px; }
+button:hover {
+    font-weight: 600;
+}
+button:hover i {
+    margin-right: 20px;
+}
 
 button:focus {
     outline: none;
 }
 
 i {
-    color: #EB4D4D;
+    color: #eb4d4d;
     display: inline-block;
     margin-right: 15px;
     font-size: 32px;
@@ -137,9 +145,15 @@ i {
     transition: margin 0.3s;
 }
 
-.btn-new { top: 45px;}
-.btn-roll { top: 403px;}
-.btn-hold { top: 467px;}
+.btn-new {
+    top: 45px;
+}
+.btn-roll {
+    top: 403px;
+}
+.btn-hold {
+    top: 467px;
+}
 
 .dice {
     position: absolute;
@@ -147,8 +161,56 @@ i {
     top: 178px;
     transform: translateX(-50%);
     height: 100px;
-    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
 }
 
-.winner { background-color: #f7f7f7; }
-.winner .player-name { font-weight: 300; color: #EB4D4D; }
+.winner {
+    background-color: #f7f7f7;
+}
+.winner .player-name {
+    font-weight: 300;
+    color: #eb4d4d;
+}
+
+.toast {
+    background-color: #755;
+    color: white;
+    text-align: center;
+    border-radius: 20px;
+    padding: 8px 30px;
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: 10px;
+    transition: top 1s;
+    visibility: hidden;
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 1.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 10px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 10px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}

@@ -66,7 +66,10 @@ function gotTheWinner() {
 }
 
 function hold() {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+        toast("Game Over, Start New Game.");
+        return;
+    }
 
     // update score
     var scoreDOM = document.querySelector("#score-" + currentPlayer);
@@ -97,7 +100,10 @@ function hold() {
 }
 
 function roll() {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+        toast("Game Over, Start New Game.");
+        return;
+    }
 
     var randomNo = Math.floor(Math.random() * 6) + 1;
     currentScore += randomNo;
@@ -109,6 +115,7 @@ function roll() {
 
     if (randomNo == 1) {
         currentScore = 0;
+        toast("1 Occured! Current Score Resetted.");
         hold();
     }
 }
@@ -138,6 +145,16 @@ function askForWinningScore() {
         if (!winningScore) winningScore = 20;
         firstRun = false;
     }
+    toast("Winning Score: " + winningScore);
+}
+
+function toast(msg) {
+    var toastDOM = document.querySelector(".toast");
+    toastDOM.textContent = msg;
+    toastDOM.classList.add("show");
+    setTimeout(() => {
+        toastDOM.classList.remove("show");
+    }, 2000);
 }
 
 function main() {
