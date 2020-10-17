@@ -18,10 +18,10 @@ Change the game to follow these rules:
 */
 
 var score = [];
+var isPreviousHadSix = false;
 var currentPlayer, currentScore;
 var isPlaying = true;
-var winningScore = 10;
-var firstRun = true;
+var winningScore = 20;
 
 function init() {
     isPlaying = true;
@@ -30,9 +30,13 @@ function init() {
     score[1] = 0;
     currentPlayer = 0;
     currentScore = 0;
+    winningScore=parseInt(document.querySelector('.final-score').value);
+    if(!winningScore) 
+        winningScore=20;
+    // console.log(winningScore);
 
-    var diceDOM = document.querySelector(".dice");
-    diceDOM.style.display = "none";
+    document.querySelector("#dice-0").style.display = "none";
+    document.querySelector("#dice-1").style.display = "none";
 
     var score0DOM = document.querySelector("#score-0");
     var score1DOM = document.querySelector("#score-1");
@@ -102,22 +106,38 @@ function hold() {
         ".player-" + currentPlayer + "-panel"
     );
     newPlayerDOM.classList.add("active");
+    isPreviousHadSix=false;
 }
 
 function roll() {
     if (!isPlaying) return;
 
-    var randomNo = Math.floor(Math.random() * 6) + 1;
-    currentScore += randomNo;
-    var diceDOM = document.querySelector(".dice");
-    diceDOM.style.display = "block";
-    diceDOM.src = "dice-" + randomNo + ".png";
-    var currentDOM = document.querySelector("#current-" + currentPlayer);
-    currentDOM.textContent = currentScore;
+    var randomNo0 = Math.floor(Math.random() * 6) + 1;
+    var randomNo1= Math.floor(Math.random() * 6) + 1;
+    currentScore += randomNo0+randomNo1;
+    document.querySelector("#dice-0").style.display = "block";
+    document.querySelector("#dice-0").src = "dice-" + randomNo0 + ".png";
+    document.querySelector("#dice-1").style.display = "block";
+    document.querySelector("#dice-1").src = "dice-" + randomNo1 + ".png";
 
-    if (randomNo == 1) {
+    document.querySelector("#current-" + currentPlayer).textContent = currentScore;
+
+    // console.log(currentPlayer,":",randomNo0,randomNo1);
+
+    if (randomNo0 == 1 || randomNo1 == 1) {
         currentScore = 0;
         hold();
+        return;
+    }
+
+    if(randomNo0==6 || randomNo1==6){
+        if(isPreviousHadSix){
+            score[currentPlayer]=0;
+            currentScore=0;
+            hold();
+            return;
+        }
+        isPreviousHadSix=true;
     }
 }
 
@@ -139,18 +159,8 @@ function manageEvents() {
     newGameDOM.addEventListener("click", newGame);
 }
 
-function askForWinningScore() {
-    if (firstRun) {
-        winningScore = prompt("Enter Winning Score");
-        // invalid input
-        if (!winningScore) winningScore = 20;
-        firstRun = false;
-    }
-}
-
 function main() {
     init();
-    // setTimeout(askForWinningScore,100);
     manageEvents();
 }
 
