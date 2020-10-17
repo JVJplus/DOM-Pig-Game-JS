@@ -154,7 +154,7 @@ function askForWinningScore(){
 
 function main() {
     init();
-    setTimeout(askForWinningScore,100);
+    // setTimeout(askForWinningScore,100);
     manageEvents();
 }
 
