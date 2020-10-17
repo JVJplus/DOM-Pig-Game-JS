@@ -9,19 +9,19 @@ GAME RULES:
 
 */
 
-var score =[];
-var currentPlayer,currentScore;
+var score = [];
+var currentPlayer, currentScore;
 var isPlaying = true;
 var winningScore = 10;
-var firstRun=true;
+var firstRun = true;
 
 function init() {
     isPlaying = true;
 
-    score[0]=0;
-    score[1]=0;
+    score[0] = 0;
+    score[1] = 0;
     currentPlayer = 0;
-    currentScore=0;
+    currentScore = 0;
 
     var diceDOM = document.querySelector(".dice");
     diceDOM.style.display = "none";
@@ -36,10 +36,10 @@ function init() {
     current0DOM.textContent = "0";
     current1DOM.textContent = "0";
 
-    var player0DOM = document.querySelector(".player-" +0 + "-panel");
+    var player0DOM = document.querySelector(".player-" + 0 + "-panel");
     player0DOM.classList.add("active");
     player0DOM.classList.remove("winner");
-    var player1DOM = document.querySelector(".player-" +1 + "-panel");
+    var player1DOM = document.querySelector(".player-" + 1 + "-panel");
     player1DOM.classList.remove("active");
     player1DOM.classList.remove("winner");
 
@@ -66,8 +66,7 @@ function gotTheWinner() {
 }
 
 function hold() {
-    if(!isPlaying)
-        return;
+    if (!isPlaying) return;
 
     // update score
     var scoreDOM = document.querySelector("#score-" + currentPlayer);
@@ -98,8 +97,7 @@ function hold() {
 }
 
 function roll() {
-    if(!isPlaying)
-        return;
+    if (!isPlaying) return;
 
     var randomNo = Math.floor(Math.random() * 6) + 1;
     currentScore += randomNo;
@@ -115,39 +113,37 @@ function roll() {
     }
 }
 
-function newGame(){
+function newGame() {
     main();
 }
 
 function manageEvents() {
-        // Roll Dice
-        var rollDOM = document.querySelector(".btn-roll");
-        rollDOM.addEventListener("click", roll);
+    // Roll Dice
+    var rollDOM = document.querySelector(".btn-roll");
+    rollDOM.addEventListener("click", roll);
 
-        // Hold
-        var holdDOM = document.querySelector(".btn-hold");
-        holdDOM.addEventListener("click", hold);
+    // Hold
+    var holdDOM = document.querySelector(".btn-hold");
+    holdDOM.addEventListener("click", hold);
 
     // New Game
     var newGameDOM = document.querySelector(".btn-new");
     newGameDOM.addEventListener("click", newGame);
 }
 
-function askForWinningScore(){
-    if(firstRun){
-        winningScore=prompt('Enter Winning Score');
+function askForWinningScore() {
+    if (firstRun) {
+        winningScore = prompt("Enter Winning Score");
         // invalid input
-        if(!winningScore)
-            winningScore=20;
-        firstRun=false;
+        if (!winningScore) winningScore = 20;
+        firstRun = false;
     }
 }
 
 function main() {
     init();
-    setTimeout(askForWinningScore,100);
+    setTimeout(askForWinningScore, 100);
     manageEvents();
 }
-
 
 main();
